@@ -28,7 +28,7 @@ $uni-text-color-placeholder: #808080;
 $uni-text-color-disable:#c0c0c0;
 
 /* 背景颜色 */
-$uni-bg-color:#ffffff;
+$uni-bg-color:#F3F4F6;
 $uni-bg-color-grey:#f8f8f8;
 $uni-bg-color-hover:#f1f1f1;//点击状态颜色
 $uni-bg-color-mask:rgba(0, 0, 0, 0.4);//遮罩颜色
@@ -74,3 +74,27 @@ $uni-color-subtitle: #555555; // 二级标题颜色
 $uni-font-size-subtitle:36rpx;
 $uni-color-paragraph: #3F536E; // 文章段落颜色
 $uni-font-size-paragraph:30rpx;
+
+
+// 字体图标
+@font-face {font-family: "iconfont-down";
+  src: url('~@/static/font/downFont/iconfont.eot?t=1601772258122'); /* IE9 */
+  src: url('~@/static/font/downFont/iconfont.eot?t=1601772258122#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAJwAAsAAAAABhQAAAIjAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcAocPwE2AiQDCAsGAAQgBYRtBzIbZwXILiEnG14ERDrjToqyYX3ojwABcIigWrae3f2YUDFKfNYhWhyK8kgsCqRDCXw24vbbT1NAo/J8WVYxDBR+yF2vn/MzUmOnp9SE3IRbTvAMpSmzNGzAAQaoSUAy+A2ww0cqKb4+fZ7L6U2gA5kf6NzumpvG2nrUCzAOpED3wCiyAgq5YeyCF/iYQNuimszZZHUOZYW9KhBPRltQLqQUhVWbQr3hYBHvCprpNQW8Rd+Pf50ok9Qyu+/ycexC74tTl18rXQWENAjoeA0Z+0AhbhtL53KCcTntUt4qOFZ38KWqgqA4qk+wv87u7IJ5WA6+eCsFSPBYU2U0Jh0j8gPpl937oQfD+SW9y6+C5lpHb3YK+NxF3mJYBDTXscVE9d0NA4eKYbIDqWiGRmcyCyR4VxsVOzb2N9U9O1EtNM0mRBoWMmRN62Rh91HTcYC6pkO07Zke75hgOVFa2PUFEIa+kfR9IBv6IQv7i5o5/6gbRg5t9+HCjs0w1ZksIRftZzROFCo3JNW4+0D63rc4b4r4S+LUZLHdaJWrUwqJl9iSPuiOiELFUYAT8Bz5foQxRydypHEUibvNpmp6U8OJAqg6xYhFEBeyPUOGIxJSwXhRrXz+gGj3fBbu0NWVlwhLmdlRW0NrADm1h4N0j/JK6oHWIYSCFBYJoAmYR3y+CIqb550Qh2g4TijEuprOKDXU3tjeGfzdCWizPSmcgaz5bKxQ+z4AAAAA') format('woff2'),
+  url('~@/static/font/downFont/iconfont.woff?t=1601772258122') format('woff'),
+  url('~@/static/font/downFont/iconfont.ttf?t=1601772258122') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('~@/static/font/downFont/iconfont.svg?t=1601772258122#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.icon-xiangxia:before {
+  content: "\e614";
+  font-family: "iconfont-down" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+page {
+		background-color: $uni-bg-color;
+	}
