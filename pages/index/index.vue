@@ -21,7 +21,7 @@
 					  />
 				</view>
 				<view class="fieldWrapper centerWrapper">
-					<view class="expired">2 天</view>
+					<view class="expired">{{expiredDay}} 天</view>
 				</view>
 				<view class="fieldWrapper">
 					<timeRender 
@@ -71,6 +71,19 @@
 				],
 				startTime: undefined,
 				endTime: undefined
+			}
+		},
+		computed: {
+			expiredDay: function() {
+				if (this.startTime && this.endTime) {
+					const endTime = parseInt(new Date(this.endTime).getTime());
+					const startTime = parseInt(new Date(this.startTime).getTime());
+					const hours = (endTime - startTime) / 1000 / 60 / 60;
+					const day = Math.floor(hours / 24);
+					return day;
+				} else {
+					return 0;
+				}
 			}
 		},
 		created()

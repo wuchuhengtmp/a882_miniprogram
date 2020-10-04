@@ -6,7 +6,8 @@
 		<view>
 			<picker
 			 mode="multiSelector" 
-			@columnchange="bindMultiPickerColumnChange" 
+			@columnchange="bindMultiPickerColumnChange"
+			@change="_onChange"
 			:value="multiIndex" 
 			:range="multiArray">
 				<view class="inputWrapper">
@@ -84,6 +85,11 @@
 			}
 		},
 		methods: {
+			// 修改
+			_onChange(e) 
+			{
+				this.isSelected = true;
+			},
 			// 重置年列表
 			_resetYearListByTime(time) 
 			{
@@ -203,9 +209,10 @@
 				return n;
 			},
 			bindMultiPickerColumnChange: function(e) {
-				console.log('修改的列为：' + e.detail.column + '，值为：' + e.detail.value)
+				// console.log('修改的列为：' + e.detail.column + '，值为：' + e.detail.value)
 				// console.log(this.multiIndex[e.detail.column]);
 				const column = e.detail.column;
+				this.multiIndex[e.detail.column] = e.detail.value;
 				const year = this.multiArray[0][this.multiIndex[0]];
 				const month = parseInt(this.multiArray[1][this.multiIndex[1]]) - 1;
 				const day = parseInt(this.multiArray[2][this.multiIndex[2]]);
@@ -234,7 +241,6 @@
 				}else if(column === 4){
 					this._resetMinute(selectTime);
 				}
-				this.multiIndex[e.detail.column] = e.detail.value;
 				this.isSelected = true;
 				this.$emit('onChange', selectTime);
 				this.$forceUpdate();
