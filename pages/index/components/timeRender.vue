@@ -242,6 +242,23 @@
 					this._resetMinute(selectTime);
 				}
 				this.isSelected = true;
+				let tmpMonth = month + 1;
+				tmpMonth = tmpMonth < 10 ? `0${tmpMonth}` : `${tmpMonth}`;
+				if (this.multiArray[1].indexOf(tmpMonth) !== -1)
+				{
+					this.multiIndex[1] = this.multiArray[1].indexOf(tmpMonth);
+				}
+				const tmpDay = day < 10 ? `0${day}` : `${day}`;
+				if (this.multiArray[2].indexOf(tmpDay) !== -1) this.multiIndex[2] = this.multiArray[2].indexOf(tmpDay);
+				const tmpHour = hour < 10 ? `0${hour}` : `${hour}`;
+				if (this.multiArray[3].indexOf(tmpHour) !== -1) {
+					this.multiIndex[3] = this.multiArray[3].indexOf(tmpHour);
+				}
+				const tmpMinute = minute < 10 ? `0${minute}` : `${minute}`;
+				if (this.multiArray[4].indexOf(tmpMinute) !== -1) {
+					this.multiIndex[4] = this.multiArray[4].indexOf(tmpMinute);
+				}
+
 				this.$emit('onChange', selectTime);
 				this.$forceUpdate();
 			}
