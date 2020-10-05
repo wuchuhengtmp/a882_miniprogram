@@ -49,8 +49,48 @@
 			}
 		},
 		watch:{
-			defaultTime: function(e) {
-				console.log(this.defaultTime)
+			startTime: function(e) {
+			    if (this.startTime) {
+					const year = this.multiArray[0][this.multiIndex[0]];
+					const month = parseInt(this.multiArray[1][this.multiIndex[1]]) - 1;
+					const day = parseInt(this.multiArray[2][this.multiIndex[2]]);
+					const hour = parseInt(this.multiArray[3][this.multiIndex[3]]);
+					const minute = parseInt(this.multiArray[4][this.multiIndex[4]]);
+					const selectTime = new Date(year, month, day, hour, minute);
+					const defaultTime = new Date(this.defaultTime);
+					const newStartTime = new Date(this.startTime);
+					if (newStartTime.getTime() > defaultTime.getTime() ) {
+						this.defaultTime = newStartTime.toString();
+						//  已经选中的时间早于限定时间， 重置默认时间为限定时间
+						if (selectTime.getTime() < newStartTime.getTime() ) {
+							this._resetYearListByTime(newStartTime.toString());
+							this._resetMonthListByTime(newStartTime.toString());
+							this._resetDaysListByTime(newStartTime.toString());
+							this._resetHourByTime(newStartTime.toString());
+							this._resetMinute(newStartTime.toString());
+							this.isSelected = false;
+							this.$emit('onChange', undefined);
+						}
+						let tmpMonth = month + 1;
+						tmpMonth = tmpMonth < 10 ? `0${tmpMonth}` : `${tmpMonth}`;
+						if (this.multiArray[1].indexOf(tmpMonth) !== -1)
+						{
+							this.multiIndex[1] = this.multiArray[1].indexOf(tmpMonth);
+						}
+						const tmpDay = day < 10 ? `0${day}` : `${day}`;
+						if (this.multiArray[2].indexOf(tmpDay) !== -1) this.multiIndex[2] = this.multiArray[2].indexOf(tmpDay);
+						const tmpHour = hour < 10 ? `0${hour}` : `${hour}`;
+						if (this.multiArray[3].indexOf(tmpHour) !== -1) {
+							this.multiIndex[3] = this.multiArray[3].indexOf(tmpHour);
+						}
+						const tmpMinute = minute < 10 ? `0${minute}` : `${minute}`;
+						if (this.multiArray[4].indexOf(tmpMinute) !== -1) {
+							this.multiIndex[4] = this.multiArray[4].indexOf(tmpMinute);
+						}
+					}
+				} else {
+					this.isSelected = true;
+				}
 			}
 		},
 		data() {
@@ -74,20 +114,18 @@
 			}
 		},
 		computed: {
-			// 已经选择的时间
-			beSelectedTime: function() {
-				const year = this.multiArray[0][this.multiIndex[0]];
-				let month = this.multiArray[1][this.multiIndex[1]];
-				let date = this.multiArray[2][this.multiIndex[2]];
-				let houre =this.multiArray[3][this.multiIndex[3]];
-				const minu = this.multiArray[4][this.multiIndex[4]];
-				return `${year}-${month}-${date} ${houre}:${minu}`;
-			}
 		},
 		methods: {
 			// 修改
 			_onChange(e) 
 			{
+				const year = this.multiArray[0][this.multiIndex[0]];
+				const month = parseInt(this.multiArray[1][this.multiIndex[1]]) - 1;
+				const day = parseInt(this.multiArray[2][this.multiIndex[2]]);
+				const hour = parseInt(this.multiArray[3][this.multiIndex[3]]);
+				const minute = parseInt(this.multiArray[4][this.multiIndex[4]]);
+				const selectTime = new Date(year, month, day, hour, minute);
+				this.$emit('onChange', selectTime.toString());
 				this.isSelected = true;
 			},
 			// 重置年列表
@@ -209,6 +247,7 @@
 				return n;
 			},
 			bindMultiPickerColumnChange: function(e) {
+			    console.log(1);
 				// console.log('修改的列为：' + e.detail.column + '，值为：' + e.detail.value)
 				// console.log(this.multiIndex[e.detail.column]);
 				const column = e.detail.column;

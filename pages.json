@@ -16,6 +16,10 @@
             "path" : "pages/mine/mine",
             "style" : {}
         }
+        ,{
+            "path" : "pages/index/citySelect/citySelect",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

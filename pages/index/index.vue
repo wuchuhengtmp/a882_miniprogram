@@ -6,7 +6,7 @@
 		<view class="formWrapper">
 			<view class="itemWrapper">
 				<view class="fieldWrapper">
-					<citiPickerRender />
+					<cityPickerRender />
 				</view>
 				<view class="fieldWrapper centerWrapper"></view>
 				<view class="fieldWrapper">
@@ -27,27 +27,26 @@
 					<timeRender 
 						label="还车时间"
 						@onChange="onEndTime"
+						:start-time="endTimeStart"
 						 />
 				</view>
-
 			</view>
 			<view class="itemWrapper">
 				<button type="default" class="buttonRender" size="default">去选车</button>
 			</view>
 		</view>
-
 	</view>
 </template>
 
 <script>
 	import carousel from '@/components/vear-carousel/vear-carousel';
-	import citiPickerRender from './components/citiPickerRender.vue';
+	import cityPickerRender from './components/cityPickerRender.vue';
 	import shopRender from './components/shopRender.vue';
 	import timeRender from './components/timeRender.vue'
 	export default {
 		components: {
 			carousel,
-			citiPickerRender,
+			cityPickerRender,
 			shopRender,
 			timeRender
 		},
@@ -74,8 +73,16 @@
 			}
 		},
 		computed: {
+			endTimeStart: function() {
+				if (this.startTime) {
+					const startTime = new Date(this.startTime);
+					return (new Date(startTime.getTime() + 1000 * 60 * 60 * 24)).toString();
+				} else {
+					return undefined;
+				}
+			},
 			expiredDay: function() {
-				if (this.startTime && this.endTime) {
+				if (this.startTime !== undefined && this.endTime !== undefined) {
 					const endTime = parseInt(new Date(this.endTime).getTime());
 					const startTime = parseInt(new Date(this.startTime).getTime());
 					const hours = (endTime - startTime) / 1000 / 60 / 60;
@@ -86,18 +93,8 @@
 				}
 			}
 		},
-		created()
-		{
-			// 设定当前时间默认往后20分钟
-			const startTime = Date.now() + 20 * 60 * 1000;
-			this.startTime = new Date(startTime);
-			// setTimeout(() => {
-			// 	this.startTime = new Date(startTime + 1);
-			// }, 2000);
-		},
 		methods: {
 			selectedBanner(item, index) {
-
 			},
 			onStartTime(time)
 			{
@@ -112,6 +109,9 @@
 			uni.setNavigationBarTitle({
 				title: '鑫旺达租车'
 			});
+			uni.$on('selectCity',(data) => {
+				this.city =  data.city;
+			})
 		}
 	}
 </script>
@@ -173,6 +173,7 @@
 					padding-bottom: 20upx;
 					border-bottom: 8upx solid #007aff;
 					text-align: center;
+                    margin-right: 20%;
 					width: 80%;
 				}
 			}

@@ -61,6 +61,11 @@
         "setting" : {
             "urlCheck" : false
         },
+        "permission" : {
+            "scope.userLocation": {
+                "desc": "请授权地理位置，我们将为您提供最近的门店"
+            }
+        },
         "usingComponents" : true
     },
     "mp-alipay" : {
