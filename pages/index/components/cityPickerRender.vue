@@ -64,10 +64,8 @@
 				uni.navigateTo({
 					url: "./citySelect/citySelect",
 					success(res) {
-						console.log(1);
 					},
 					fail(res) {
-						console.log(2);
 					}
 				})
 			},

@@ -4,21 +4,17 @@
 			选择门店
 		</view>
 		<view>
-			<picker @change="bindPickerChange"
-			 :value="index"
-			 :range="array" 
-			 range-key="name"
-			 >
 				<view class="inputWrapper">
-					<view class="uni-input">
-						{{array[index].name}}
+					<view
+						class="uni-input"
+						@click="goToShopSelect"
+					>
+						{{title}}
 					</view>
 					<view>
 						<text class="icon-xiangxia"></text>
 					</view>
 				</view>
-			</picker>
-			</picker>
 		</view>
 	</view>
 </template>
@@ -27,23 +23,23 @@
 	export default {
 		data() {
 			return {
-				title: 'picker',
-				array: [{
-					name: '中国'
-				}, {
-					name: '美国'
-				}, {
-					name: '巴西'
-				}, {
-					name: '日本'
-				}],
-				index: 0
+				title: '请选择'
 			};
 		},
+		mounted: function() {
+			uni.$on('selectShop',  (shopInfo) => {
+				this.title = shopInfo.name;
+			});
+		},
 		methods: {
-			bindPickerChange: function(e) {
-				console.log('picker发送选择改变，携带值为：' + e.detail.value)
-				this.index = e.detail.value
+		    goToShopSelect: function() {
+				uni.navigateTo({
+					url: "./selectShop/selectShop",
+					success(res) {
+					},
+					fail(res) {
+					}
+				})
 			}
 		}
 	}

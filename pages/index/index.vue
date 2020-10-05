@@ -8,7 +8,9 @@
 				<view class="fieldWrapper">
 					<cityPickerRender />
 				</view>
+
 				<view class="fieldWrapper centerWrapper"></view>
+
 				<view class="fieldWrapper">
 					<shopRender />
 				</view>
@@ -158,22 +160,23 @@
 
 			.fieldWrapper {
 				flex: 1;
+                display: flex;
+				justify-content: center;
 			}
 
 			.centerWrapper {
 				flex: none;
 				width: 4rem;
 				display: flex;
-				flex-direction: row;
-				justify-content: center;
+				flex-direction: column;
+				justify-content: flex-end;
 				align-items: center;
-
+                height: 100%;
 				.expired {
 					box-sizing: border-box;
 					padding-bottom: 20upx;
 					border-bottom: 8upx solid #007aff;
 					text-align: center;
-                    margin-right: 20%;
 					width: 80%;
 				}
 			}
