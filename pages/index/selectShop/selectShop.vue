@@ -16,16 +16,26 @@
 				</template>
 			</view>
 			<view class="rightWrapper">
-                <template
-					v-for="(item, index) in list[active]['storeList']"
-                    :key="index"
-				>
-					<view
-						class="shopItem"
-						@click="onChangeShop(item)"
+                <template v-if="list[active]['storeList'].length > 0">
+					<template
+							v-for="(item, index) in list[active]['storeList']"
+							:key="index"
 					>
-						<view class="shopTitle">{{item.name}}</view>
-						<view class="shopAddress">{{item.address}}</view>
+						<view
+								class="shopItem"
+								@click="onChangeShop(item)"
+						>
+							<view class="shopTitle">{{item.name}}</view>
+							<view class="shopAddress">{{item.address}}</view>
+						</view>
+					</template>
+				</template>
+				<template v-else>
+					<view class="empty">
+						<image class="image" src="/static/images/empty.png"/>
+						<view>
+							暂时无门店
+						</view>
 					</view>
 				</template>
 			</view>
@@ -74,25 +84,29 @@
 							}
 						]
 					},
-						{
-							areaname: "惠东县",
-							storeList: [
-								{
-									id: 30,
-									address: "测试门店5的地址是在惠东县那边的",
-									name: "测试门店5",
-									tag: "飞机场"
-								},
-								{
-									id: 31,
-									address: "惠东县测试门店6的地址哈",
-									name: "惠东县测试门店6",
-									tag: "火车站"
-								}
-							]
-						}
-					]
-			}
+					{
+						areaname: "惠东县",
+						storeList: [
+							{
+								id: 30,
+								address: "测试门店5的地址是在惠东县那边的",
+								name: "测试门店5",
+								tag: "飞机场"
+							},
+							{
+								id: 31,
+								address: "惠东县测试门店6的地址哈",
+								name: "惠东县测试门店6",
+								tag: "火车站"
+							}
+						]
+					},
+					{
+						areaname: "测试",
+						storeList: []
+					}
+			]
+		}
 		},
 		methods: {
 			onChangeGroup: function (index) {
@@ -131,7 +145,7 @@
 	display: flex;
 	flex-direction: row;
 	width: 100%;
-    height: 93vh;
+    height: 87vh;
 }
 .ledtWrapper {
 	width: 30%;
@@ -145,8 +159,21 @@
 .rightWrapper {
 	flex: 1;
     padding: 20upx;
-	height: 93vh;
+	height: 87vh;
 	overflow: auto;
+}
+.empty {
+	height: 87vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    color: #cccccc;
+}
+.image {
+	width: 200upx;
+	height: 200upx;
 }
 .item {
 	min-height: 9vh;
