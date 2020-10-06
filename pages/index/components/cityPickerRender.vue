@@ -78,24 +78,21 @@
 	.componentWrapper {
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-start;
-		align-items: flex-start;
+		justify-content: center;
+		align-items: center;
 		width: 100%;
-
 		.labelRender {
 			font-size: .7rem;
 			margin-bottom: .5rem;
 			color: $color;
-			width: 4rem;
+			width: 100%;
 			text-align: center;
 			
 		}
 		.inputWrapper {
-			width: 4rem;
 			display: flex;
 			flex-direction: row;
 			.uni-input {
-				width: 3rem;
 				text-align: center;
 			}
 		}
