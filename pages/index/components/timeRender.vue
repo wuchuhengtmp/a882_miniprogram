@@ -14,18 +14,18 @@
 					<view v-if="isSelected">
 						<view class="uni-input">
 							{{`${
-								multiArray[0][multiIndex[0]]
+								multiArray[0][multiIndex[0]].substring(0, multiArray[0][multiIndex[0]].length - 1)
 							}-${
-								multiArray[1][multiIndex[1]]
+								multiArray[1][multiIndex[1]].substring(0, multiArray[1][multiIndex[1]].length - 1)
 							}-${
-								multiArray[2][multiIndex[2]]
+								multiArray[2][multiIndex[2]].substring(0, multiArray[2][multiIndex[2]].length - 1)
 							}`}}
 						</view>
 						<view class="uni-input">
 								{{`${
-									multiArray[3][multiIndex[3]]
+									multiArray[3][multiIndex[3]].substring(0, multiArray[3][multiIndex[3]].length - 1)
 								}:${
-									multiArray[4][multiIndex[4]]
+									multiArray[4][multiIndex[4]].substring(0, multiArray[4][multiIndex[4]].length - 1)
 								}`}}
 						</view>
 					</view>
@@ -108,14 +108,51 @@
 			};
 		},
 		filters:{
-			formatTime(e)
-			{
-				return typeof e < 10 ?  `0${e}` : e;
-			}
+		    yearToNumber: (year) => year.substr(0, year.length - 1),
+			monthToNumber: (month) =>{
+				return  parseInt(month.substring(0, month.length - 1)) - 1;
+			},
+
+			dayToNumber: (day) => parseInt(day.substring(0, day.length - 1)),
+            hourToNumber: (newHour)  => newHour.substring(0, newHour.length - 1),
+			minuteToNumber: (min) => parseInt(min.substring(0, min.length - 1)),
+
+			numberToYear: (year) => year + '年',
+			numberToMonth: (month) => {
+		        const newMonth = month + 1;
+				return newMonth > 9 ? `${newMonth}月` : `0${newMonth}月`;
+			},
+			numberToDay: (day) =>  day > 9 ? `${day}日` : `0${day}日`,
+			numberToHour: (hour) => hour >9 ? `${hour}时` : `0${hour}时`,
+			numberToMin: (min) => min > 9 ? `${min}分` : `0${min}分`
 		},
 		computed: {
 		},
 		methods: {
+			// 定位选项
+			_locationIndex(time) {
+				const timeInstance = new Date(time);
+				const year = timeInstance.getFullYear();
+				const month = timeInstance.getMonth();
+				const  day = timeInstance.getDate();
+				const hour = timeInstance.getHours();
+				const minute = timeInstance.getMinutes();
+				let tmpMonth = this.$options.filters['numberToMonth'](month);
+				if (this.multiArray[1].indexOf(tmpMonth) !== -1)
+				{
+					this.multiIndex[1] = this.multiArray[1].indexOf(tmpMonth);
+				}
+				const tmpDay = this.$options.filters['numberToDay'](day);
+				if (this.multiArray[2].indexOf(tmpDay) !== -1) this.multiIndex[2] = this.multiArray[2].indexOf(tmpDay);
+				const tmpHour = this.$options.filters['numberToHour'](hour);
+				if (this.multiArray[3].indexOf(tmpHour) !== -1) {
+					this.multiIndex[3] = this.multiArray[3].indexOf(tmpHour);
+				}
+				const tmpMinute = this.$options.filters['numberToMin'](minute);
+				if (this.multiArray[4].indexOf(tmpMinute) !== -1) {
+					this.multiIndex[4] = this.multiArray[4].indexOf(tmpMinute);
+				}
+			},
 			// 修改
 			_onChange(e) 
 			{
@@ -135,7 +172,9 @@
 				const defaultYear = (new Date(this.defaultTime)).getFullYear();
 				let yearCollect = [];
 				for(let i = 0; i < 10; i++) {
-					yearCollect.push(defaultYear + i);
+					yearCollect.push(
+						this.$options.filters['numberToYear'](defaultYear + i)
+					);
 				}
 				this.multiArray[0] = yearCollect;
 			},
@@ -146,14 +185,15 @@
 				const selectYear = (new Date(time)).getFullYear();
 				const defaultYear = (new Date(this.defaultTime)).getFullYear();
 				const defaultMonth = (new Date(this.defaultTime)).getMonth();
-				const selectMonth = this.multiArray[1][this.multiIndex[1]];
 				let startMonth = 0;
 				if (defaultYear === selectYear) {
 					startMonth = defaultMonth;
 				}
 				let monthList = [];
 				for(let i = startMonth; i < 12; i++) {
-					monthList.push(i < 9 ? `0${i + 1}`: `${i + 1}`);
+					monthList.push(
+						this.$options.filters['numberToMonth'](i)
+					);
 				}
 				this.multiArray[1] = monthList;
 			},
@@ -173,7 +213,9 @@
 				}
 				let days = [];
 				for(let i = startDay; i <= lastDayOfMonth; i++) {
-					days.push(i < 10 ? `0${i}`: `${i}`);
+					days.push(
+							this.$options.filters['numberToDay'](i)
+					);
 				}
 				this.multiArray[2] = days;
 			},
@@ -197,7 +239,9 @@
 				}
 				let hourList = [];
 				for(let i = startHour; i < 24; i++) {
-					hourList.push(i < 10 ? `0${i}`: `${i}`);
+					hourList.push(
+						this.$options.filters['numberToHour'](i)
+					);
 				}
 				this.multiArray[3] = hourList;
 			},
@@ -224,7 +268,9 @@
 					startMinute = defaultMinute;
 				}
 				for(let i = startMinute; i < 60; i++) {
-					minuteList.push(i < 10 ? `0${i}`: `${i}`);
+					minuteList.push(
+							this.$options.filters['numberToMin'](i)
+					);
 				}
 				this.multiArray[4] = minuteList;
 			},
@@ -247,17 +293,16 @@
 				return n;
 			},
 			bindMultiPickerColumnChange: function(e) {
-			    console.log(1);
 				// console.log('修改的列为：' + e.detail.column + '，值为：' + e.detail.value)
 				// console.log(this.multiIndex[e.detail.column]);
 				const column = e.detail.column;
 				this.multiIndex[e.detail.column] = e.detail.value;
-				const year = this.multiArray[0][this.multiIndex[0]];
-				const month = parseInt(this.multiArray[1][this.multiIndex[1]]) - 1;
-				const day = parseInt(this.multiArray[2][this.multiIndex[2]]);
-				const hour = parseInt(this.multiArray[3][this.multiIndex[3]]);
-				const minute = parseInt(this.multiArray[4][this.multiIndex[4]]);
-				const selectTime = new Date(year, month, day, hour, minute);
+				const year = this.$options.filters['yearToNumber'](this.multiArray[0][this.multiIndex[0]]);
+				const month = this.$options.filters['monthToNumber'](this.multiArray[1][this.multiIndex[1]]);
+				const day = this.$options.filters['dayToNumber'](this.multiArray[2][this.multiIndex[2]]);
+				const hour = this.$options.filters['hourToNumber'](this.multiArray[3][this.multiIndex[3]]);
+				const minute = this.$options.filters['minuteToNumber'](this.multiArray[4][this.multiIndex[4]]);
+				const selectTime = (new Date(year, month, day, hour, minute)).toString();
 				// 修改年
 				if (column === 0) {
 					this._resetYearListByTime(selectTime);
@@ -281,23 +326,10 @@
 					this._resetMinute(selectTime);
 				}
 				this.isSelected = true;
-				let tmpMonth = month + 1;
-				tmpMonth = tmpMonth < 10 ? `0${tmpMonth}` : `${tmpMonth}`;
-				if (this.multiArray[1].indexOf(tmpMonth) !== -1)
-				{
-					this.multiIndex[1] = this.multiArray[1].indexOf(tmpMonth);
-				}
-				const tmpDay = day < 10 ? `0${day}` : `${day}`;
-				if (this.multiArray[2].indexOf(tmpDay) !== -1) this.multiIndex[2] = this.multiArray[2].indexOf(tmpDay);
-				const tmpHour = hour < 10 ? `0${hour}` : `${hour}`;
-				if (this.multiArray[3].indexOf(tmpHour) !== -1) {
-					this.multiIndex[3] = this.multiArray[3].indexOf(tmpHour);
-				}
-				const tmpMinute = minute < 10 ? `0${minute}` : `${minute}`;
-				if (this.multiArray[4].indexOf(tmpMinute) !== -1) {
-					this.multiIndex[4] = this.multiArray[4].indexOf(tmpMinute);
-				}
-
+				// 定位选项
+				const preTime = new Date(year, month, day, hour, minute);
+				this._locationIndex(preTime.toString());
+				// 报告修改
 				this.$emit('onChange', selectTime);
 				this.$forceUpdate();
 			}

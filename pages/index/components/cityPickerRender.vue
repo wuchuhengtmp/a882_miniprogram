@@ -4,10 +4,10 @@
 			取还车城市
 		</view>
 		<view>
-			<view class="inputWrapper">
-				<view class="uni-input"
-					  @click="goToSelectCityPage"
-				>
+			<view class="inputWrapper"
+				  @click="goToSelectCityPage"
+			>
+				<view class="uni-input">
 					{{currentCity }}
 				</view>
 				<view>
@@ -93,6 +93,7 @@
 			display: flex;
 			flex-direction: row;
 			.uni-input {
+				font-size: .8rem;
 				text-align: center;
 			}
 		}

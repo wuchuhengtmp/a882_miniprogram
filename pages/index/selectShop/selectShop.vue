@@ -7,7 +7,6 @@
 			<view class="ledtWrapper">
 				<template
 					v-for="(item, index) in list"
-					:key="index"
 				>
 					<view
 						:class="{item: true,  active: index === active ? true : false}"
@@ -19,7 +18,6 @@
                 <template v-if="list[active]['storeList'].length > 0">
 					<template
 							v-for="(item, index) in list[active]['storeList']"
-							:key="index"
 					>
 						<view
 								class="shopItem"

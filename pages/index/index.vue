@@ -23,7 +23,12 @@
 					  />
 				</view>
 				<view class="fieldWrapper centerWrapper">
-					<view class="expired">{{expiredDay}} 天</view>
+					<view class="expired">{{expiredDay}} 天
+					</view>
+					<view class="redirectRight">
+						<view></view>
+						<view></view>
+					</view>
 				</view>
 				<view class="fieldWrapper">
 					<timeRender 
@@ -34,7 +39,12 @@
 				</view>
 			</view>
 			<view class="itemWrapper">
-				<button type="default" class="buttonRender" size="default">去选车</button>
+				<button
+					type="default"
+					class="buttonRender"
+					size="default"
+                    @click="goToSelectCar"
+				>去选车</button>
 			</view>
 		</view>
 	</view>
@@ -96,6 +106,17 @@
 			}
 		},
 		methods: {
+			goToSelectCar() {
+				uni.navigateTo({
+					url: "./selectCar/selectCar",
+					success: function success(res) {
+					    console.log(1);
+					},
+					fail(res) {
+						console.log(2);
+					}
+				});
+			},
 			selectedBanner(item, index) {
 			},
 			onStartTime(time)
@@ -119,6 +140,7 @@
 </script>
 
 <style lang="scss">
+	@import "../../uni";
 	@mixin flex-colunm-center {
 		display: flex;
 		flex-direction: column;
@@ -148,7 +170,7 @@
 		margin-top: 40upx;
 		width: 87%;
 		background-color: white;
-		border-radius: 25upx;
+		border-radius: $border-radius;
 		padding: 0% 4% 10% 4%;
 
 		@include flex-colunm-center;
@@ -173,16 +195,15 @@
 				align-items: center;
                 height: 100%;
 				.expired {
+					color: rgb(9, 111, 228);
+                    font-size: .8rem;
 					box-sizing: border-box;
-					padding-bottom: 20upx;
-					border-bottom: 8upx solid #007aff;
 					text-align: center;
 					width: 80%;
 				}
 			}
-
 			.buttonRender {
-				background-color: #007aff;
+				background-color: $theme-color;
 				color: #fff;
 				font-size: .9rem;
 				margin-top: 1rem;
@@ -197,5 +218,30 @@
 
 	.uni-row {
 		flex-direction: row;
+	}
+	.direction {
+		width: 150upx;
+		height: 20upx;
+	}
+	// 方向样式
+	.redirectRight {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		view {
+			&:first-child {
+				width: 140upx;
+				height: 5upx;
+				background-color: $theme-color;
+			}
+			&:last-child {
+				height: 0;
+				width: 0;
+				border-color: transparent $theme-color;
+				border-width: 0upx 0upx 15upx 15upx;
+				border-style: solid;
+			}
+		}
+		transform: rotateX(180deg);
 	}
 </style>

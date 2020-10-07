@@ -10,7 +10,7 @@
                     <view style="margin-top:0;">当前</view>
                     <view style="margin-top:0;">热门</view>
                 </view>
-                <view v-for="(item, idx) in searchLetter" :key="idx" style="color:#8BC34A;font-size:20upx;" :data-letter="item.name"
+                <view v-for="(item, idx) in searchLetter" :key="idx" style="color:#007aff;font-size:20upx;" :data-letter="item.name"
                       @click="clickLetter">
                     {{ item.name }}
                 </view>
@@ -368,28 +368,28 @@
 
     .thisCityName {
         display: inline-block;
-        border: 1upx solid #8BC34A;
+        border: 1upx solid #007aff;
         border-radius: 8upx;
         padding: 10upx 0;
         font-size: 24upx;
-        color: #8BC34A;
+        color: #007aff;
         text-align: center;
         min-width: 149.5upx;
         margin: 16upx 0;
     }
 
     .thishotText {
-        color: #8BC34A;
+        color: #007aff;
         font-size: 20upx;
         margin: 0 !important;
     }
 
     .slectCity {
-        border-color: #8BC34A !important;
+        border-color: #007aff !important;
     }
 
     .slectCity view {
-        color: #8BC34A !important;
+        color: #007aff !important;
     }
 
     .weui-grid {

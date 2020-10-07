@@ -4,10 +4,11 @@
 			选择门店
 		</view>
 		<view>
-				<view class="inputWrapper">
+				<view class="inputWrapper"
+				  @click="goToShopSelect"
+				>
 					<view
 						class="uni-input"
-						@click="goToShopSelect"
 					>
 						{{title}}
 					</view>
@@ -69,6 +70,7 @@
 
 			.uni-input {
 				text-align: center;
+				font-size: .8rem;
 			}
 		}
 	}
