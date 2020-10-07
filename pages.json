@@ -11,10 +11,6 @@
 			}
         }
         ,{
-            "path" : "pages/customer/customer",
-            "style" : {}
-        }
-        ,{
             "path" : "pages/mine/mine",
             "style" : {}
         }
@@ -53,12 +49,8 @@
 				"iconPath": "static/images/tabBar/order.png",
 				"selectedIconPath": "static/images/tabBar/order_active.png",
 				"text": "订单"
-			}, {
-				"pagePath": "pages/customer/customer",
-				"iconPath": "static/images/tabBar/customer.png",
-				"selectedIconPath": "static/images/tabBar/customer_active.png",
-				"text": "客服"
-			}, {
+			},
+			{
 				"pagePath": "pages/mine/mine",
 				"iconPath": "static/images/tabBar/mine.png",
 				"selectedIconPath": "static/images/tabBar/mine_active.png",

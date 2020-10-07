@@ -1,7 +1,7 @@
 <template>
 	<view class="mainWrapper">
 		<v-tabs
-			v-model="activeTab"
+			:value="activeTab"
 			:scroll="false"
 			:tabs="tabs"
 			@change="changeTab"
@@ -13,52 +13,53 @@
 		>
 		</v-tabs>
         <view class="contentWrapper">
-			<orderItemRender v-for="(item, index) in list[activeTab]"/>
+			<view>
+				<all-render v-if="activeTab === 0"/>
+				<pending-render v-else-if="activeTab === 1"/>
+				<scheduling-render v-else-if="activeTab === 2"/>
+				<processing-render v-else-if="activeTab === 3"/>
+				<finish-render v-else-if="activeTab === 4"/>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
     import orderItemRender from './orderItemRender/orderItemRender.vue';
+    import allRender from './allRender/allRender'
+	import pendingRender from "./pendingRender/pendingRender";
+    import finishRender from "./finishRender/finishRender";
+    import schedulingRender from "./schedulingRender/schedulingRender";
+	import processingRender from "./processingRender/processingRender";
 	export default {
 		components: {
-			orderItemRender
+			orderItemRender,
+			allRender,
+			pendingRender,
+			finishRender,
+			schedulingRender,
+			processingRender
 		},
 	    mounted: function() {
-			uni.setNavigationBarTitle({
-				title: '订单'
-			});
-		},
-		onLoad: function (options) {
-			setTimeout(function () {
-				console.log('start pulldown');
-			}, 1000);
-			uni.startPullDownRefresh();
-		},
-		onPullDownRefresh() {
-			console.log('refresh');
-			setTimeout(function () {
-				uni.stopPullDownRefresh();
-			}, 1000);
+			uni.setNavigationBarTitle({ title: '订单' });
 		},
 		data() {
 			return {
-			    list: [
-					5, 4, 3, 2
-				],
+				animationData: {},
+				transType: 'left2right',
 				activeTab: 0,
-				tabs: [
-					'全部订单',
-					'待付款',
-					'预定中',
-					'进行中',
-				]
+				tabs: [ '全部', '待付款', '预定中', '进行中', '完成', ]
 			}
 		},
+		onShow: function(){
+		},
+
 		methods: {
 			changeTab(index) {
 				console.log('当前选中的项：' + index)
-                console.log(this.activeTab);
+				this.activeTab = index
+			},
+			rotateAndScaleThenTranslate: function () {
 			}
 		}
 	}
