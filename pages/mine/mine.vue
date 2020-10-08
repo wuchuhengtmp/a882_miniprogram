@@ -38,7 +38,7 @@
 				<view class="itemToRight"><view></view></view>
 			</view>
 
-			<view class="itemRender">
+			<view class="itemRender" @click="goToBreak">
 				<image src="/static/images/mine/errorLog.png" class="icon" />
 				<view>违章记录</view>
 				<view class="itemToRight"><view></view></view>
@@ -80,6 +80,11 @@
 			};
 		},
 		methods: {
+			goToBreak: function() {
+				uni.navigateTo({
+					url: './breakRender/breakRender'
+				});
+			},
 			goToQr: function () {
 				uni.navigateTo({
 					url: './qrcode/qrcode'
