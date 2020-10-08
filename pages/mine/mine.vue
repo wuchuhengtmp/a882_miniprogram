@@ -43,7 +43,7 @@
 				<view>违章记录</view>
 				<view class="itemToRight"><view></view></view>
 			</view>
-			<view class="itemRender">
+			<view class="itemRender" @click="goToContact">
 				<image src="/static/images/mine/contact.png" class="icon" />
 				<view>紧急联系人</view>
 				<view class="itemToRight"><view></view></view>
@@ -80,6 +80,11 @@
 			};
 		},
 		methods: {
+			goToContact: function() {
+				uni.navigateTo({
+					url: './contactRender/contactRender'
+				});
+			},
 			goToBreak: function() {
 				uni.navigateTo({
 					url: './breakRender/breakRender'

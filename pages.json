@@ -46,6 +46,10 @@
             "path" : "pages/mine/breakRender/breakDetailRender/breakDetailRender",
             "style" : {}
         }
+        ,{
+            "path" : "pages/mine/contactRender/contactRender",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
