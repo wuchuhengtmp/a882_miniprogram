@@ -53,7 +53,10 @@
 				<view>常见问题</view>
 				<view class="itemToRight"><view></view></view>
 			</view>
-			<view class="itemRender">
+			<view
+					class="itemRender"
+					@click="onCallPhone"
+			>
 				<image src="/static/images/mine/serverPhone.png" class="icon" />
 				<view>服务热线</view>
 				<view class="itemToRight"><view></view></view>
@@ -76,10 +79,22 @@
 		},
 		data() {
 			return {
-
+				phone: 13427969604
 			};
 		},
 		methods: {
+			onCallPhone: function () {
+			    console.log(1);
+				uni.makePhoneCall({
+					phoneNumber: `${this.phone}`,
+					fail: (res) => {
+						console.log(res);
+					},
+					success(res) {
+						console.log(res);
+					}
+				});
+			},
 		    goToFQA() {
 				uni.navigateTo({
 					url: './fqaRender/fqaRender'
