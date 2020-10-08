@@ -27,7 +27,7 @@
 			</view>
 		</view>
         <view class="itemWrapper">
-			<view class="itemRender">
+			<view class="itemRender" @click="goToTransition">
 				<image src="/static/images/mine/transactions.png" class="icon" />
 				<view>我的账单</view>
 				<view class="itemToRight"><view></view></view>
@@ -81,13 +81,16 @@
 		},
 		methods: {
 			goToQr: function () {
-				console.log(1);
 				uni.navigateTo({
-						url: './qrcode/qrcode'
-					});
+					url: './qrcode/qrcode'
+				});
+			},
+			goToTransition: function() {
+				uni.navigateTo({
+					url: './transition/transition'
+				});
 			}
-
-		}
+		},
 	}
 </script>
 

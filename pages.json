@@ -30,6 +30,14 @@
             "path" : "pages/mine/qrcode/qrcode",
             "style" : {}
         }
+        ,{
+            "path" : "pages/mine/transition/transition",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/mine/transition/searchRender/searchRender",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

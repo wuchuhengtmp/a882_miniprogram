@@ -78,11 +78,11 @@
 
 		},
 		methods: {
-			onSelected(res){
+			onselected(res){
 				console.log(res)
 			},
-			dateChange(d){
-				uni.showToast({
+			datechange(d){
+				uni.showtoast({
 					icon:'none',
 					title:d
 				})
