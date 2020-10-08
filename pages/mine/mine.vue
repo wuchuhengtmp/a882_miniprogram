@@ -10,7 +10,9 @@
 							<view class="phone">
 								13427****00
 							</view>
-                            <view class="qr">
+                            <view class="qr"
+								  @click="goToQr"
+							>
 								<image src="/static/images/mine/qr.png" />
 								<view class="rightTag"></view>
 							</view>
@@ -76,6 +78,15 @@
 			return {
 
 			};
+		},
+		methods: {
+			goToQr: function () {
+				console.log(1);
+				uni.navigateTo({
+						url: './qrcode/qrcode'
+					});
+			}
+
 		}
 	}
 </script>

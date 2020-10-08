@@ -1,9 +1,9 @@
 <template>
-	<template>
+	<view>
 		<order-item-render />
 		<order-item-render />
 		<order-item-render />
-	</template>
+	</view>
 </template>
 
 <script>

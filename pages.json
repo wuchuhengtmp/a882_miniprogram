@@ -26,6 +26,10 @@
             "path" : "pages/index/selectCar/selectCar",
             "style" : {}
         }
+	    ,{
+            "path" : "pages/mine/qrcode/qrcode",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -62,10 +66,11 @@
 		"current": 0, //当前激活的模式(list 的索引项)
 		"list": [
 			{
-				"name": "课程", //模式名称
-				"path": "pages/order/order", //启动页面，必选
+				"name": "qrcode", //模式名称
+				"path": "pages/mine/qrcode", //启动页面，必选
 				"query": "" //启动参数，在页面的onLoad函数里面得到
 			}
 		]
 	}
+	
 }

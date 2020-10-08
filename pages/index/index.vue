@@ -31,7 +31,7 @@
 					</view>
 				</view>
 				<view class="fieldWrapper">
-					<timeRender 
+					<timeRender
 						label="还车时间"
 						@onChange="onEndTime"
 						:start-time="endTimeStart"
@@ -55,12 +55,13 @@
 	import cityPickerRender from './components/cityPickerRender.vue';
 	import shopRender from './components/shopRender.vue';
 	import timeRender from './components/timeRender.vue'
+
 	export default {
 		components: {
 			carousel,
 			cityPickerRender,
 			shopRender,
-			timeRender
+			timeRender,
 		},
 		data() {
 			return {
