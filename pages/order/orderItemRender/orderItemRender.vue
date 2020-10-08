@@ -65,6 +65,8 @@
 		flex-direction: column;
 		.addborder{
 			border-radius: $border-radius;
+			border-bottom-right-radius: 0;
+			border-bottom-left-radius: 0;
 			border-bottom: 1upx solid $uni-bg-color;
 			box-sizing: border-box;
 			padding: 0 20upx;
@@ -80,6 +82,8 @@
 			justify-content: space-between;
             background-color: $backbroundColor;
 			font-size: .8rem;
+            border-bottom-right-radius: 0;
+			border-bottom-left-radius: 0;
 			text {
 				.numberRender {
 					padding-left: 10upx;

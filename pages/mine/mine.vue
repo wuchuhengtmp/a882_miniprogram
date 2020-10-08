@@ -48,7 +48,7 @@
 				<view>紧急联系人</view>
 				<view class="itemToRight"><view></view></view>
 			</view>
-			<view class="itemRender">
+			<view class="itemRender" @click="goToFQA">
 				<image src="/static/images/mine/fqa.png" class="icon" />
 				<view>常见问题</view>
 				<view class="itemToRight"><view></view></view>
@@ -80,6 +80,11 @@
 			};
 		},
 		methods: {
+		    goToFQA() {
+				uni.navigateTo({
+					url: './fqaRender/fqaRender'
+				});
+			},
 			goToContact: function() {
 				uni.navigateTo({
 					url: './contactRender/contactRender'

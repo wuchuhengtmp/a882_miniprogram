@@ -38,6 +38,11 @@
 
 <script>
 	export default {
+	    mounted: function () {
+			uni.setNavigationBarTitle({
+				title: '违章详情'
+			});
+		},
 		data() {
 			return {
 				

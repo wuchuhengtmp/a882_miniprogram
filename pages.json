@@ -50,6 +50,10 @@
             "path" : "pages/mine/contactRender/contactRender",
             "style" : {}
         }
+        ,{
+            "path" : "pages/mine/fqaRender/fqaRender",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
