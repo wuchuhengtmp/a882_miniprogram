@@ -37,6 +37,7 @@
 							console.log(res);
 							let latitude = res.latitude;
 							let longitude = res.longitude;
+							// :xxx 这里使用的是别人的key 要更换为自己的
 							uni.request({
 								url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + ',' + longitude +
 										'&key=UGMBZ-S5AKU-YQGV3-47M5J-BAQ62-ZBBJW',

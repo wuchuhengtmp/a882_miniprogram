@@ -1,5 +1,5 @@
 <template>
-	<view class="wrapper">
+	<view class="mainWrapper">
 		<view class="swiperWrapper">
 			<carousel :img-list="imgList" url-key="url" @selected="selectedBanner" />
 		</view>
@@ -8,18 +8,19 @@
 				<view class="fieldWrapper">
 					<cityPickerRender />
 				</view>
-
 				<view class="fieldWrapper centerWrapper"></view>
-
 				<view class="fieldWrapper">
 					<shopRender />
 				</view>
 			</view>
-			<view class="itemWrapper">
+			<view
+				class="itemWrapper"
+				@click="onShowDatePicker('rangetime')"
+			>
 				<view class="fieldWrapper">
 					<timeRender
 					 label="取车时间"
-					 @onChange="onStartTime"
+                     :init-time="startTime"
 					  />
 				</view>
 				<view class="fieldWrapper centerWrapper">
@@ -33,9 +34,8 @@
 				<view class="fieldWrapper">
 					<timeRender
 						label="还车时间"
-						@onChange="onEndTime"
-						:start-time="endTimeStart"
-						 />
+						:init-time="endTime"
+					/>
 				</view>
 			</view>
 			<view class="itemWrapper">
@@ -47,6 +47,16 @@
 				>去选车</button>
 			</view>
 		</view>
+		<mx-date-picker
+				:show="showPicker"
+				:type="type"
+				:value="value"
+				:show-tips="true"
+				:begin-text="'取车'"
+				:end-text="'还车'"
+				:show-seconds="true"
+				@confirm="onSelected"
+				@cancel="onSelected" />
 	</view>
 </template>
 
@@ -55,6 +65,10 @@
 	import cityPickerRender from './components/cityPickerRender.vue';
 	import shopRender from './components/shopRender.vue';
 	import timeRender from './components/timeRender.vue'
+	import yuDatetimePicker from "@/components/yu-datetime-picker/yu-datetime-picker.vue"
+	import MxDatePicker from "@/components/mx-datepicker/mx-datepicker.vue";
+	import {fetchAll} from "../../services/bases";
+	import {fetchAll as fetchAllSlides} from "../../services/slides";
 
 	export default {
 		components: {
@@ -62,38 +76,70 @@
 			cityPickerRender,
 			shopRender,
 			timeRender,
+			yuDatetimePicker,
+			MxDatePicker
+		},
+		created: function() {
+
+			const now = new Date(Date.now() + 10 * 60 * 1000);
+			const year = now.getFullYear();
+			const month = now.getMonth() + 1;
+			const day = now.getDate();
+			const hour = now.getHours();
+			const min = now.getMinutes() + 10;
+			const a = [`${year}/${month}/${day} ${hour}:${min}`, ''];
+			this.rangetime = [`${year}/${month}/${day} ${hour}:${min}` ];
 		},
 		data() {
 			return {
-				imgList: [{
-						url: '/static/images/swiper/1.jpg',
-						id: 1,
-						nav: 'http://xxx.com'
-					},
-					{
-						url: '/static/images/swiper/2.jpg',
-						id: 2,
-						nav: 'http://xxx.com'
-					},
-					{
-						url: '/static/images/swiper/3.jpg',
-						id: 3,
-						nav: 'http://xxx.com'
-					}
+				showPicker: false,
+				rangetime: [],
+				type: 'rangetime',
+				value: '',
+				imgList: [
+				    // :xxx 这里的垃圾图片要删除
+					// {
+					// 	url: '/static/images/swiper/1.jpg',
+					// 	id: 1,
+					// 	nav: 'http://xxx.com'
+					// },
+					// {
+					// 	url: '/static/images/swiper/2.jpg',
+					// 	id: 2,
+					// 	nav: 'http://xxx.com'
+					// },
+					// {
+					// 	url: '/static/images/swiper/3.jpg',
+					// 	id: 3,
+					// 	nav: 'http://xxx.com'
+					// }
 				],
 				startTime: undefined,
 				endTime: undefined
 			}
 		},
-		computed: {
-			endTimeStart: function() {
-				if (this.startTime) {
-					const startTime = new Date(this.startTime);
-					return (new Date(startTime.getTime() + 1000 * 60 * 60 * 24)).toString();
-				} else {
-					return undefined;
+        beforeCreate() {
+			const appNameKey = 'appName';
+			uni.getStorage({
+				key: appNameKey,
+				success: function (res) {
+					uni.setNavigationBarTitle({
+						title: res
+					});
 				}
-			},
+			});
+			fetchAll().then((res) => {
+				const appName = res.data.appName;
+				uni.setNavigationBarTitle({
+					title: appName
+				});
+				uni.setStorage({
+					key: appNameKey,
+					data: appName
+				})
+			});
+		},
+		computed: {
 			expiredDay: function() {
 				if (this.startTime !== undefined && this.endTime !== undefined) {
 					const endTime = parseInt(new Date(this.endTime).getTime());
@@ -102,40 +148,75 @@
 					const day = Math.floor(hours / 24);
 					return day;
 				} else {
-					return 0;
+					return '--';
 				}
 			}
 		},
 		methods: {
+			onShowDatePicker(type){//显示
+				this.type = type;
+				this.showPicker = true;
+				this.value = this[type];
+			},
+			onSelected(e) {//选择
+				this.showPicker = false;
+				if(e) {
+					this[this.type] = e.value;
+					console.log('value => '+ e.value);
+
+					this.startTime = e.date[0].getTime();
+					this.endTime = e.date[1].getTime();
+					if  (this.startTime < (new Date).getTime())  {
+						this.showPicker = true;
+						uni.showModal({
+							title: '错误',
+							content: '取车时间不能早当前时间',
+							success: function (res) {
+								if (res.confirm) {
+								} else if (res.cancel) {
+								}
+							},
+							confirmColor: '#007aff',
+						});
+					}
+				}
+			},
 			goToSelectCar() {
 				uni.navigateTo({
 					url: "./selectCar/selectCar",
 					success: function success(res) {
-					    console.log(1);
+
 					},
 					fail(res) {
-						console.log(2);
+
 					}
 				});
 			},
 			selectedBanner(item, index) {
+				uni.setStorage({
+					key: 'currentSlideDetailImg',
+					data: item.nav
+				})
+				uni.navigateTo({
+					url: './slideDetailRender/slideDetailRender',
+					success(res) {
+					},
+					fail(res) {
+					}
+				})
 			},
-			onStartTime(time)
-			{
-				this.startTime = time;
-			},
-			onEndTime(time)
-			{
-				this.endTime = time;
-			}
 		},
 		mounted() {
-			uni.setNavigationBarTitle({
-				title: '鑫旺达租车'
-			});
 			uni.$on('selectCity',(data) => {
 				this.city =  data.city;
 			})
+            // 幻灯片
+			fetchAllSlides().then((res) => {
+				const items = res.data.map(item => {
+					return {id: item.id, url: item.slide.url, nav: item.detail.url};
+				});
+				this.imgList = items;
+			});
 		}
 	}
 </script>
@@ -156,7 +237,7 @@
 		align-items: center;
 	}
 
-	.wrapper {
+	.mainWrapper {
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;

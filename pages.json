@@ -54,6 +54,19 @@
             "path" : "pages/mine/fqaRender/fqaRender",
             "style" : {}
         }
+        ,{
+            "path" : "pages/mine/suggest/suggest",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/index/slideDetailRender/slideDetailRender",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "活动详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

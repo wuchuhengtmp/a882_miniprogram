@@ -32,6 +32,11 @@
 				<view>我的账单</view>
 				<view class="itemToRight"><view></view></view>
 			</view>
+			<view class="itemRender" >
+				<image src="/static/images/mine/discount.png" class="icon" />
+				<view>我的优惠券</view>
+				<view class="itemToRight"><view></view></view>
+			</view>
 			<view class="itemRender">
 				<image src="/static/images/mine/promote.png" class="icon" />
 				<view>我的推广</view>
@@ -61,7 +66,10 @@
 				<view>服务热线</view>
 				<view class="itemToRight"><view></view></view>
 			</view>
-			<view class="itemRender">
+			<view
+				class="itemRender"
+                @click="goToSuggest"
+			>
 				<image src="/static/images/mine/suggest.png" class="icon" />
 				<view>投诉建议</view>
 				<view class="itemToRight"><view></view></view>
@@ -83,6 +91,11 @@
 			};
 		},
 		methods: {
+			goToSuggest: function() {
+				uni.navigateTo({
+					url: './suggest/suggest'
+				});
+			},
 			onCallPhone: function () {
 			    console.log(1);
 				uni.makePhoneCall({

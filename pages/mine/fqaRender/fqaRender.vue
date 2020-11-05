@@ -48,7 +48,7 @@
 				]
 			};
 		},
-        create: function() {
+        created: function() {
 			uni.setNavigationBarTitle({
 				title: '常见问题'
 			});
