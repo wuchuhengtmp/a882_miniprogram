@@ -6,11 +6,16 @@
 		<view class="formWrapper">
 			<view class="itemWrapper">
 				<view class="fieldWrapper">
-					<cityPickerRender />
+					<cityPickerRender
+						:active-go-to-select="activeGoToSelectCity"
+					/>
 				</view>
 				<view class="fieldWrapper centerWrapper"></view>
 				<view class="fieldWrapper">
-					<shopRender />
+					<shopRender
+						:active-go-to-shop-select="activeGoToSelectShop"
+                        :message-from-parent="messageToShopSelect"
+					/>
 				</view>
 			</view>
 			<view
@@ -57,6 +62,7 @@
 				:show-seconds="true"
 				@confirm="onSelected"
 				@cancel="onSelected" />
+		<quick-message ref="message"></quick-message>
 	</view>
 </template>
 
@@ -69,6 +75,8 @@
 	import MxDatePicker from "@/components/mx-datepicker/mx-datepicker.vue";
 	import {fetchAll} from "../../services/bases";
 	import {fetchAll as fetchAllSlides} from "../../services/slides";
+	import {validate} from "./index";
+	import message from '@/components/quick-message/quick-message.vue'
 
 	export default {
 		components: {
@@ -77,7 +85,8 @@
 			shopRender,
 			timeRender,
 			yuDatetimePicker,
-			MxDatePicker
+			MxDatePicker,
+			message
 		},
 		created: function() {
 
@@ -92,30 +101,18 @@
 		},
 		data() {
 			return {
+				activeGoToSelectCity: false, // 激活选择城市
+				activeGoToSelectShop: false, // 激活选择门店
+				messageToShopSelect: '', // 提示消息在选择门店中显示
 				showPicker: false,
 				rangetime: [],
 				type: 'rangetime',
 				value: '',
-				imgList: [
-				    // :xxx 这里的垃圾图片要删除
-					// {
-					// 	url: '/static/images/swiper/1.jpg',
-					// 	id: 1,
-					// 	nav: 'http://xxx.com'
-					// },
-					// {
-					// 	url: '/static/images/swiper/2.jpg',
-					// 	id: 2,
-					// 	nav: 'http://xxx.com'
-					// },
-					// {
-					// 	url: '/static/images/swiper/3.jpg',
-					// 	id: 3,
-					// 	nav: 'http://xxx.com'
-					// }
-				],
+				imgList: [],
 				startTime: undefined,
-				endTime: undefined
+				endTime: undefined,
+                shopId: undefined,
+                city: undefined,
 			}
 		},
         beforeCreate() {
@@ -153,6 +150,19 @@
 			}
 		},
 		methods: {
+			// 显示提示消息
+			showMessage(params) { //显示message
+				this.$refs.message.show({
+					type:'default', //String 默认default
+					msg: params, //String 显示内容 *
+					direction:'top', //String 默认顶部显示
+					icon:true, //Boolean|String 显示icon(false/true/string 默认显示icon)
+					mask: false, //Boolean 遮罩（默认false没有遮罩）
+					time:5000, //Number|Boolean 默认3000/false为不自动关闭
+					iconSize: 10, //Number 自定义icon大小(单位px 默认16 设置后会覆盖自定义样式里的设置优先级最高)
+					iconColor: '#007aff', //String icon颜色(默认主题颜色 设置后会覆盖自定义样式里的设置优先级最高)
+				})
+			},
 			onShowDatePicker(type){//显示
 				this.type = type;
 				this.showPicker = true;
@@ -182,13 +192,32 @@
 				}
 			},
 			goToSelectCar() {
-				uni.navigateTo({
-					url: "./selectCar/selectCar",
-					success: function success(res) {
-
-					},
-					fail(res) {
-
+				const id = this.shopId;
+				const  startTime = this.startTime;
+				const endTime = this.endTime;
+				validate({
+					shopId:id,
+					startTime,
+					endTime
+				}).then(() => {
+					uni.navigateTo({
+						url: "./selectCar/selectCar"
+					});
+				}).catch(e => {
+					switch (e.errorType) {
+						case 'timeRange':
+							this.showMessage(e.message)
+							this.showPicker = true;
+							break;
+						case 'shop':
+							if (this.city === undefined) {
+								this.showMessage(e.message)
+								this.activeGoToSelectCity = true;
+							} else if (this.shopId === undefined)  {
+								this.activeGoToSelectShop = true;
+								this.messageToShopSelect = e.message;
+							}
+							break;
 					}
 				});
 			},
@@ -210,6 +239,9 @@
 			uni.$on('selectCity',(data) => {
 				this.city =  data.city;
 			})
+			uni.$on('selectShop',  (shopInfo) => {
+				this.shopId = shopInfo.id;
+			});
             // 幻灯片
 			fetchAllSlides().then((res) => {
 				const items = res.data.map(item => {

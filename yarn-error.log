@@ -1,0 +1,33 @@
+Arguments: 
+  C:\Users\wuchu\applications\node-v12.18.3-win-x64\node.exe C:\Users\wuchu\applications\Yarn\bin\yarn.js add @dcloudio/uni-ui
+
+PATH: 
+  C:\Users\wuchu\applications\Git\mingw64\bin;C:\Users\wuchu\applications\Git\usr\bin;C:\Users\wuchu\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Users\wuchu\applications\Git\cmd;C:\Users\wuchu\applications\vagrant\bin;C:\Users\wuchu\applications\Yarn\bin;C:\Users\wuchu\applications\Python\Python38-32\Scripts;C:\Users\wuchu\applications\Python\Python38-32;C:\Users\wuchu\AppData\Local\Microsoft\WindowsApps;C:\Users\wuchu\applications\node-v12.18.3-win-x64;C:\Users\wuchu\AppData\Local\Yarn\bin;C:\Users\wuchu\applications\node-v12.18.3-win-x64;C:\Users\wuchu\applications\Yarn\bin;C:\Users\wuchu\applications\Python\Python38-32
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.18.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  TypeError [ERR_UNESCAPED_CHARACTERS]: Request path contains unescaped characters
+      at new ClientRequest (_http_client.js:148:13)
+      at Object.request (https.js:314:10)
+      at Request.module.exports.Request.start (C:\Users\wuchu\applications\Yarn\lib\cli.js:141311:32)
+      at Request.module.exports.Request.end (C:\Users\wuchu\applications\Yarn\lib\cli.js:142070:10)
+      at end (C:\Users\wuchu\applications\Yarn\lib\cli.js:141124:14)
+      at Immediate._onImmediate (C:\Users\wuchu\applications\Yarn\lib\cli.js:141138:7)
+      at processImmediate (internal/timers.js:456:21)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

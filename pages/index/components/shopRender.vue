@@ -21,26 +21,68 @@
 </template>
 
 <script>
+	import {fetchShops} from "../../../services/shops";
+	import {isSelectCity} from "../../../utils/common";
+
 	export default {
+		props: {
+			activeGoToShopSelect: Boolean,
+			messageFromParent: String
+		},
 		data() {
 			return {
-				title: '请选择'
+				title: '请选择',
+				shops: []
 			};
 		},
+		watch: {
+			activeGoToShopSelect(param) {
+				param && this.goToShopSelect();
+			}
+		},
 		mounted: function() {
+			uni.$on('selectCity',(data) => {
+				this.city =  data.city;
+				fetchShops(data.city).then((data) => {
+					this.shops = data;
+				});
+			})
 			uni.$on('selectShop',  (shopInfo) => {
-				this.title = shopInfo.name;
+				this.title = shopInfo.nickname;
 			});
 		},
 		methods: {
-		    goToShopSelect: function() {
-				uni.navigateTo({
-					url: "./selectShop/selectShop",
-					success(res) {
-					},
-					fail(res) {
-					}
-				})
+			// 跳转到选择门店
+			goToShopSelect: function() {
+				isSelectCity().then(() => {
+					uni.navigateTo({
+					url: "/pages/index/selectShop/selectShop",
+						success:(res) => {
+							// 通过eventChannel向被打开页面传送数据
+							res.eventChannel.emit(
+									'acceptDataFromOpenerPage',
+									{
+										city: this.city,
+										shops: this.shops,
+										message: this.messageFromParent
+									}
+							);
+						}
+					})
+				}).catch(() => {
+					uni.showModal({
+						title: '提示',
+						content: '请先选择城市',
+						confirmText: '前往',
+						success(res) {
+							if (res.confirm === true) {
+								uni.navigateTo({
+									url: "./citySelect/citySelect"
+								})
+							}
+						}
+					});
+				});
 			}
 		}
 	}

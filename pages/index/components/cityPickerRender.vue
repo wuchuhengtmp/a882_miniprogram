@@ -19,7 +19,19 @@
 </template>
 
 <script>
+	import {getCityNameByLocation} from "../../../utils/common";
+
 	export default {
+		props: {
+			activeGoToSelect: Boolean // 由上层指示跳转到城市选择页面
+		},
+        watch: {
+			activeGoToSelect(params) {
+				if (params) {
+					this.goToSelectCityPage();
+				}
+			}
+		},
 		mounted: function() {
 			uni.$on('selectCity',(data) => {
 				this.currentCity =  data.city;
@@ -27,7 +39,6 @@
 			uni.getStorage({
 				key: 'selectCity',
 				success: (res) =>  {
-				    console.log(res.data);
 					uni.$emit('selectCity',{city: res.data})
 				},
 				fail: (res) => {
@@ -37,15 +48,14 @@
 							console.log(res);
 							let latitude = res.latitude;
 							let longitude = res.longitude;
-							// :xxx 这里使用的是别人的key 要更换为自己的
-							uni.request({
-								url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + ',' + longitude +
-										'&key=UGMBZ-S5AKU-YQGV3-47M5J-BAQ62-ZBBJW',
-								success: data => {
-									uni.setStorageSync('selectCity', data.data.result.address_component.city)
-									uni.$emit('selectCity',{city: data.data.result.address_component.city});
-								}
-							});
+							getCityNameByLocation({latitude, longitude}).then(city => {
+								uni.setStorageSync('selectCity', city);
+								uni.$emit('selectCity',{city});
+							}).catch(e => {
+								uni.showToast({
+									title: e
+								})
+							})
 						}
 					});
 				}

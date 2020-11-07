@@ -88,6 +88,7 @@
 
 <script>
 	import city from '../../../common/city';
+	import {getCityNameByLocation, getConfigBykey} from "../../../utils/common";
 	export default {
 		data() {
 			return {
@@ -141,13 +142,13 @@
 					success: res => {
 						let latitude = res.latitude;
 						let longitude = res.longitude;
-						uni.request({
-							url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + ',' + longitude +
-								'&key=UGMBZ-S5AKU-YQGV3-47M5J-BAQ62-ZBBJW',
-							success: data => {
-								this.currentCity = data.data.result.address_component.city;
-							}
-						});
+						getCityNameByLocation({latitude, longitude}).then(city => {
+							this.currentCity = city;
+						}).catch(e => {
+							uni.showToast({
+							    title: e
+							})
+						})
 					}
 				});
 			},

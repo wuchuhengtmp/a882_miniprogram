@@ -17,3 +17,16 @@ const request = (url, options = {data: {}, method: 'GET'}) => {
 }
 
 export default request;
+
+
+/**
+ *  格式化数据 取出data
+ * @param params
+ */
+export const fonmatResponse = (params) => {
+    return new Promise((resolve) => {
+        params.then(res => {
+            resolve(res.data);
+        })
+    });
+};
