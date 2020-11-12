@@ -95,15 +95,24 @@ export default {
             selIndex: [] //选中条件索引
         };
     },
+    watch: {
+	    filterData(params) {
+		    this.refreshInitData();
+        }
+    },
     created() {
-        this.navData = this.filterData;
-        this.selIndex = this.defaultIndex;
-        this.keepStatus();
+    	this.refreshInitData();
     },
     mounted() {
         // this.selDate = getCurDateTime().formatDate;
     },
     methods: {
+    	// 刷新
+        refreshInitData() {
+	        this.navData = this.filterData;
+	        this.selIndex = this.defaultIndex;
+	        this.keepStatus();
+        },
         keepStatus() {
             this.navData.forEach(itemnavData => {
                 itemnavData.map(child => {

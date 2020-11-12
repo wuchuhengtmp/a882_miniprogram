@@ -1,12 +1,10 @@
 <template>
-	<view class="componentWrapper">
+	<view class="componentWrapper" @click="goToShopSelect" >
 		<view class="labelRender">
 			选择门店
 		</view>
 		<view>
-				<view class="inputWrapper"
-				  @click="goToShopSelect"
-				>
+				<view class="inputWrapper" >
 					<view
 						class="uni-input"
 					>

@@ -1,12 +1,10 @@
 <template>
-	<view class="componentWrapper">
+	<view class="componentWrapper" @click="goToSelectCityPage">
 		<view class="labelRender">
 			取还车城市
 		</view>
 		<view>
-			<view class="inputWrapper"
-				  @click="goToSelectCityPage"
-			>
+			<view class="inputWrapper">
 				<view class="uni-input">
 					{{currentCity }}
 				</view>

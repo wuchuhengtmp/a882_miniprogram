@@ -89,7 +89,10 @@
 			message
 		},
 		created: function() {
-
+			const nextPage = '/pages/index/selectCar/createOrderRender/createOrderRender';
+			uni.navigateTo({
+				url: `/pages/login/login?nextPage=${nextPage}`
+			});
 			const now = new Date(Date.now() + 10 * 60 * 1000);
 			const year = now.getFullYear();
 			const month = now.getMonth() + 1;
@@ -201,7 +204,7 @@
 					endTime
 				}).then(() => {
 					uni.navigateTo({
-						url: "./selectCar/selectCar"
+						url: `./selectCar/selectCar?shopId=${this.shopId}&startTime=${this.startTime}&endTime=${this.endTime}`
 					});
 				}).catch(e => {
 					switch (e.errorType) {
@@ -282,7 +285,7 @@
 
 	.formWrapper {
 		margin-top: 40upx;
-		width: 87%;
+		width: $centerWrapperWidth;
 		background-color: white;
 		border-radius: $border-radius;
 		padding: 0% 4% 10% 4%;

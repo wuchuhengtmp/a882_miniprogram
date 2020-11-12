@@ -8,10 +8,12 @@ export const getConfigBykey = async (key: string) => {
     const configPrefix = 'config_';
     const saveKey = configPrefix + key;
     return new Promise((resolve) => {
+        // 刷新配置
         const refresh = () => {
             return new Promise((resolve) => {
                 fetchOne(key).then(res => {
-                    const {value} = res.data;
+                    const {data} = res;
+                    const {value} = data;
                     uni.setStorage({
                         key: saveKey,
                         data: value
@@ -20,11 +22,11 @@ export const getConfigBykey = async (key: string) => {
                 });
             });
         };
-
+        // 获取配置
         uni.getStorage({
             key: saveKey,
             success: (res) => {
-                const value = res.data;
+                let value = res.data;
                 resolve(value);
             },
             fail: () => {
@@ -113,3 +115,35 @@ export const getLocation = async () :Promise<{longitude: number; latitude: numbe
         });
     });
 };
+
+// 导向条款说明
+export const nativeToClausePageById = (id: number) => {
+    uni.navigateTo({
+        url: `/pages/index/selectCar/createOrderRender/clause/clause?id=${id}`
+    });
+}
+
+const tokenKey = 'token';
+// 是否登录
+export const isLogin = () => {
+    return new Promise((resolve, reject) => {
+        uni.getStorage({
+            key: tokenKey,
+            success: (res) => {
+                resolve(res.data)
+            },
+            fail: () => {
+                reject();
+            }
+        })
+    });
+}
+
+export const auth = (token: string) => {
+    return new Promise(() => {
+        uni.setStorage({
+            key: tokenKey,
+            data: token
+        })
+    });
+}

@@ -1,11 +1,15 @@
+<script src="../../../services/brands.ts"></script>
 <template>
-	<view class="mainWrapper">
+	<view
+		class="mainWrapper"
+	    @click="goToCreateOrderPage(item.id)"
+	>
 		<view class="contentWrapper">
 			<view
 				class="contentRender"
 			>
 				<image
-					src="/static/images/order/a.png"
+					:src="banner.url"
                     class="car"
 				/>
 				<view class="carInfo">
@@ -13,24 +17,30 @@
 						<view>
 							<view class="name">
 								<view class="nameRender">
-									汪淮 标签
+									{{`${brand} ${name}`}}
 								</view>
-                                <view class="cashTag">
-                                    <image src="/static/images/index/ant.png" />
-									押金双免
-								</view>
+									<preferential-render
+										v-if="insuranceCost === 0"
+									/>
 							</view>
-							<view class="subTitle">汪淮 标签</view>
+							<view class="subTitle">
+								<text
+									v-for="(tag, index) in tags"
+									:key="index"
+								>
+									{{tag.name}}
+								</text>
+							</view>
 						</view>
 						<view class='redirectButton'></view>
 					</view>
                     <view class="No2Col">
 						<view class="price">
-							$0.02
+							¥ {{cost}}
 						</view>
 						<view class="priceNotice">
                             <view>
-								每日租金
+								{{id}}每日租金
 							</view>
 							<view class="toBottomIcon"></view>
 						</view>
@@ -42,11 +52,42 @@
 </template>
 
 <script>
+    import preferentialRender from "./preferentialRender/preferentialRender";
+    import {isLogin} from "../../../utils/common";
+
 	export default {
+		components: {
+			preferentialRender
+		},
+		props: {
+			item: Object,
+			id: String,
+			tags: Array,
+			cost: Number,
+			insuranceCost: Number,
+			banner: Object,
+			name: String,
+			brand: String
+		},
 		data() {
 			return {
 				
 			};
+		},
+		methods: {
+			goToCreateOrderPage(id) {
+				const nextPage = `/pages/index/selectCar/createOrderRender/createOrderRender?id=${id}`;
+				isLogin().then(() => {
+					uni.navigateTo({
+						url: nextPage
+					});
+				}).catch(() => {
+					uni.navigateTo({
+						url: `/pages/login/login?nextPage=${nextPage}`
+					});
+				});
+				// 去下单
+			}
 		}
 	}
 </script>
@@ -78,6 +119,7 @@
                 .car {
 					width: 40%;
 					height: 90%;
+                    border-radius: 8upx;
 				}
 				.carInfo {
                     padding-left: 10upx;
@@ -99,19 +141,6 @@
 							justify-content: flex-start;
 							flex-direction: row;
 							align-items: center;
-							.cashTag {
-                                image {
-									width: 25rpx;
-									height: 25rpx;
-								}
-								font-size: 25rpx;
-								width: 130upx;
-								height: .8rem;
-								border-radius: 10upx;
-								background-color: #60bec9;
-								margin-left: 20upx;
-								color: #FFFFFF;
-							}
 						}
 						.subTitle {
 							font-size: .7rem;
