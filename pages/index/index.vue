@@ -63,6 +63,7 @@
 				@confirm="onSelected"
 				@cancel="onSelected" />
 		<quick-message ref="message"></quick-message>
+		<coupon-render />
 	</view>
 </template>
 
@@ -77,22 +78,26 @@
 	import {fetchAll as fetchAllSlides} from "../../services/slides";
 	import {validate} from "./index";
 	import message from '@/components/quick-message/quick-message.vue'
+	import couponRender from "./couponRender/couponRender";
+	import Bounce from "../../components/our-loading/loaders/bounce";
 
 	export default {
 		components: {
+			Bounce,
 			carousel,
 			cityPickerRender,
 			shopRender,
 			timeRender,
 			yuDatetimePicker,
 			MxDatePicker,
-			message
+			message,
+			couponRender
 		},
 		created: function() {
-			const nextPage = '/pages/index/selectCar/createOrderRender/createOrderRender';
-			uni.navigateTo({
-				url: `/pages/login/login?nextPage=${nextPage}`
-			});
+			// const nextPage = '/pages/index/selectCar/createOrderRender/createOrderRender';
+			// uni.navigateTo({
+			// 	url: `/pages/login/login?nextPage=${nextPage}`
+			// });
 			const now = new Date(Date.now() + 10 * 60 * 1000);
 			const year = now.getFullYear();
 			const month = now.getMonth() + 1;

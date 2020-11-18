@@ -256,6 +256,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/index/couponRender/couponRender",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

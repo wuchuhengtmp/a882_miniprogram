@@ -1,20 +1,33 @@
 import Config from "./Config";
+import {isLogin} from "./common";
 
 const request = (url, options = {data: {}, method: 'GET'}) => {
+    let header = {};
+    const data = Object.keys(options.data).length > 0 ? {data: options.data} : {};
     return new Promise((resolve) => {
-        const data = Object.keys(options.data).length > 0 ? {data: options.data} : {};
-
-        uni.request({
-            url: Config.httpBaseUrl + url,
-            ...data,
-            method: options.method,
-            // header: {
-            //     'custom-header': 'hello' //自定义请求头信息
-            // },
-            success: (res) => {
-                resolve(res.data);
+        isLogin().then(token => {
+            header = {
+                Authorization: `Bearer ${token}`
             }
-        });
+            uni.request({
+                url: Config.httpBaseUrl + url,
+                ...data,
+                method: options.method,
+	            header: {...header},
+                success: (res) => {
+                    resolve(res.data);
+                }
+            });
+        }).catch(() => {
+            uni.request({
+                url: Config.httpBaseUrl + url,
+                ...data,
+                method: options.method,
+                success: (res) => {
+                    resolve(res.data);
+                }
+            });
+        })
     });
 }
 
