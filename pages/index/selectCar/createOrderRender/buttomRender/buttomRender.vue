@@ -6,7 +6,9 @@
 				</text>
 			</view>
 		</view>
-		<view class="rightWrapper">
+		<view class="rightWrapper"
+			@click="onPay"
+		>
 			<view class="centerRender">
 				<image src="/static/images/ant.png" />
 				免押预定
@@ -16,6 +18,7 @@
 </template>
 
 <script>
+	import {create} from '@/services/order.js'
 	export default {
 		props: {
 			allCost:  {
@@ -28,7 +31,34 @@
 			}
 		},
 		methods: {
-			
+			onPay() {
+				create().then(res => {
+					this.payByWechat(res);
+				})
+			},
+			payByWechat(params) {
+				const {
+					appId,
+					nonceStr,
+					signType,
+					paySign,
+					timestamp
+				} = params;
+				uni.requestPayment({
+				    provider: 'wxpay',
+				    timeStamp: params.timestamp,
+				    nonceStr,
+				    package: params.package,
+				    signType,
+				    paySign,
+				    success: function (res) {
+				        console.log('success:' + JSON.stringify(res));
+				    },
+				    fail: function (err) {
+				        console.log('fail:' + JSON.stringify(err));
+				    }
+				});
+			}
 		}
 	}
 </script>

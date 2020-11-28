@@ -3,6 +3,7 @@ import {isLogin} from "./common";
 
 const request = (url, options = {data: {}, method: 'GET'}) => {
     let header = {};
+	options.data = options.data ? options.data : {};
     const data = Object.keys(options.data).length > 0 ? {data: options.data} : {};
     return new Promise((resolve) => {
         isLogin().then(token => {
